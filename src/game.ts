@@ -1,6 +1,6 @@
-import * as PIXI from "pixi.js";
+import * as PIXI from "pixi.js"
 
-class Game {
+export default class Game {
   //singleton function 
   static instance: Game;
 
@@ -15,24 +15,38 @@ class Game {
 
   private constructor() {
     
-    //making the canvas black and setting the canvas full screen
-    let app = new PIXI.Application(window.innerWidth - 10, window.innerHeight - 10, {
+    //Initialise the canvas
+    this.pixi = new PIXI.Application(window.innerWidth, window.innerHeight, {
       backgroundColor: 0x000000,
       resolution: window.devicePixelRatio,
       autoResize: true,
       forceCanvas: true
     });
 
-    app.renderer.view.style.position = "absolute";
-    app.renderer.view.style.display = "block";
-    app.renderer.autoResize = true;
-    app.renderer.resize(window.innerWidth, window.innerHeight);
+    //Make canvas fullscreen, and auto resize
+    this.pixi.renderer.view.style.position = "absolute";
+    this.pixi.renderer.view.style.display = "block";
+    this.pixi.renderer.autoResize = true;
+    this.pixi.renderer.resize(window.innerWidth, window.innerHeight);
     
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-    document.body.appendChild(this.app.view);
+    document.body.appendChild(this.pixi.view);
 
-    this.gameLoop()
+    //load assets
+    PIXI.loader
+        .add('res/imgGround.png')
+        .load(this.setup)
+  }
+
+  private setup() {
+
+    let testSprite = new PIXI.Sprite(
+      PIXI.loader.resources["res/imgGround.png"].texture
+    );
+    Game.getInstance().pixi.stage.addChild(testSprite)
+    
+    Game.getInstance().gameLoop()
   }
   
   private gameLoop():void{
