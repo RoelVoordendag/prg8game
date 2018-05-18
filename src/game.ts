@@ -9,21 +9,28 @@ class Game {
       Game.instance = new Game();
     }
     return Game.instance;
-  }
+  }  
 
   public pixi: PIXI.Application;
 
   private constructor() {
     
     //making the canvas black and setting the canvas full screen
-    this.pixi = new PIXI.Application(innerWidth, innerHeight, {
+    let app = new PIXI.Application(window.innerWidth - 10, window.innerHeight - 10, {
       backgroundColor: 0x000000,
       resolution: window.devicePixelRatio,
-      autoResize: true
+      autoResize: true,
+      forceCanvas: true
     });
+
+    app.renderer.view.style.position = "absolute";
+    app.renderer.view.style.display = "block";
+    app.renderer.autoResize = true;
+    app.renderer.resize(window.innerWidth, window.innerHeight);
+    
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-    document.body.appendChild(this.pixi.view);
+    document.body.appendChild(this.app.view);
 
     this.gameLoop()
   }
