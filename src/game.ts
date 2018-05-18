@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js"
+import Map from "./map"
 
 export default class Game {
   //singleton function 
@@ -12,8 +13,11 @@ export default class Game {
   }  
 
   public pixi: PIXI.Application;
+  public map: Map;
 
   private constructor() {
+
+    this.map = new Map();
     
     //Initialise the canvas
     this.pixi = new PIXI.Application(window.innerWidth, window.innerHeight, {
@@ -41,10 +45,12 @@ export default class Game {
 
   private setup() {
 
-    let testSprite = new PIXI.Sprite(
-      PIXI.loader.resources["res/imgGround.png"].texture
-    );
-    Game.getInstance().pixi.stage.addChild(testSprite)
+    // let testSprite = new PIXI.Sprite(
+    //   PIXI.loader.resources["res/imgGround.png"].texture
+    // );
+    // Game.getInstance().pixi.stage.addChild(testSprite)
+    // Game.getInstance().pixi.stage.addChild(testSprite)'
+    this.map.build();
     
     Game.getInstance().gameLoop()
   }
