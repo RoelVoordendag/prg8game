@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js"
-import Map from "./map"
+import Map from "./Map"
 
 export default class Game {
   //singleton function 
@@ -39,23 +39,22 @@ export default class Game {
 
     //load assets
     PIXI.loader
-        .add('res/imgGround.png')
-        .load(this.setup)
+        .add('x', 'res/x.png')
+        .add('d', 'res/d.png')
+        .add('grasstiles', 'res/grasstiles.json')
+        .load()
+        PIXI.loader.onComplete.add(() => {this.map.build();});
+
+    this.gameLoop();    
   }
 
-  private setup() {
-
-    // let testSprite = new PIXI.Sprite(
-    //   PIXI.loader.resources["res/imgGround.png"].texture
-    // );
-    // Game.getInstance().pixi.stage.addChild(testSprite)
-    // Game.getInstance().pixi.stage.addChild(testSprite)'
-    this.map.build();
+  // private setup():void {
     
-    Game.getInstance().gameLoop()
-  }
+    
+  //   Game.getInstance().gameLoop()
+  // }
   
-  private gameLoop():void{
+  private gameLoop():void {
     
     requestAnimationFrame(() => this.gameLoop());
   }
