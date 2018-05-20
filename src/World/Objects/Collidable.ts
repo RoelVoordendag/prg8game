@@ -1,3 +1,4 @@
+//Parent class for all colliders
 export default class Collidable {
     protected x: number
     protected y: number
@@ -10,25 +11,20 @@ export default class Collidable {
     protected collisionHeight: number = 0
 
     constructor (x: number, y:number, width: number, height: number) {
-        // colissionX: number = 0, colissionY: number = 0, collisionWidth: number = 0, colissionHeight: number = 0
         this.x = x
         this.y = y
         this.width = width
         this.height = height
-        // this.collisionX = colissionX
-        // this.collisionY = colissionY
-        // this.collisionHeight = colissionHeight
-        // this.collisionWidth = collisionWidth
     }
 
+    //The collision x, y, width and height are meant for colliders where
+    //you dont want the entire sprite to be a collider
+    //Example: A character can walk behind a tree, but not
+    //through the trunk even though it is one sprite
+
     isColliding(x: number, y: number): boolean {
-
-        // if(this.collisionX !== 0 && this.collisionY !== 0 && this.collisionWidth !== 0 && this.collisionHeight !== 0 ) {
-        //     console.log("jawor werkt pik");
-
-            
-        // } else
-
+        //But if there is no special collision props given,
+        //do use the entire sprite
         if(this.collisionX ==0) {
             this.collisionX = this.x
         }
@@ -40,20 +36,16 @@ export default class Collidable {
         }
         if(this.collisionHeight ==0) {
             this.collisionHeight = this.height
-        }
-        
-
+        }   
+        //The actual collision check  
         if (
             x + 64 > this.collisionX
             && x < this.collisionX + this.collisionWidth
             && y + 64 > this.collisionY
             && y < this.collisionY + this.collisionHeight
         ) {
-            // console.log(this.x);
-            
             return true
         }
-
         return false
     }
 }

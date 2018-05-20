@@ -1,3 +1,4 @@
+//A singular tile
 import Game from '../Game'
 import Map from './Map'
 import { Rectangle } from 'pixi.js'
@@ -12,6 +13,8 @@ export default class Tile {
         this.x = x;
         this.y = y;
         this.textureName = textureName;
+        //Create a sprite form the tiles json file (linked to tileset)
+        //that has the number given in the big array in Map.ts
         this.sprite = new PIXI.Sprite(
             PIXI.loader.resources["grasstiles"].textures![textureName]
         )
@@ -20,6 +23,7 @@ export default class Tile {
         this.sprite.x = x;
         this.sprite.y = y;
 
+        //Tiles belong in the tilecontainer
         Game.getInstance().tileContainer.addChild(this.sprite);
     }
 }
