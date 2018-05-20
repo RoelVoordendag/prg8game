@@ -1,15 +1,18 @@
-import Game from "./Game"
+import Game from "../Game"
 import Tile from "./Tile"
-import Player from './Characters/Player'
+import Player from '../Characters/Player'
+import Collidable from '../World/Objects/Collidable'
+import Tree from '../World/Objects/Tree'
 
 
 export default class Map {
-    private static height = 256;
-    private static width = 256;
-    private static tileSize = 64;
+    // private static height = 256
+    // private static width = 256
+    private static tileSize = 64
 
-    public tiles: Array<Tile> = new Array;
-    public playerCharacters: Array<Player> = new Array;
+    public tiles: Array<Tile> = new Array
+    public playerCharacters: Array<Player> = new Array
+    public collidables: Array<Collidable> = new Array
 
     build(){
 
@@ -44,7 +47,11 @@ export default class Map {
                 let posX = o*Map.tileSize
                 this.setTile(posX, posY, JSON.stringify(map[i][o]))
             }
-        }    
+        }   
+
+        
+        
+        this.collidables.push(new Tree(100, 120, 256, 256, "tree"))
     }
 
     setTile(x: number, y: number, texture: string) {

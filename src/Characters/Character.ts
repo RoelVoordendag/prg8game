@@ -7,10 +7,19 @@ export default class Character {
     protected vy = 0
     protected speed = 8
     protected sprite: PIXI.Sprite
+    protected Temp_Frameset: any = []
 
     constructor(x: number, y: number, textureName: string) {
-      this.sprite = new PIXI.Sprite (
-        PIXI.loader.resources["grasstiles"].textures![textureName]
+
+      //animation setup mby?
+      var Temp_Frame = {
+        texture: PIXI.loader.resources.walking.textures!['walking8'],
+        time: 200
+      }
+      this.Temp_Frameset.push(Temp_Frame)
+
+      this.sprite = new PIXI.extras.AnimatedSprite (
+        this.Temp_Frameset
       )
 
       this.sprite.x = x
@@ -18,8 +27,7 @@ export default class Character {
       this.sprite.width = 64
       this.sprite.height = 64
 
-
-      Game.getInstance().pixi.stage.addChild(this.sprite)
+      Game.getInstance().characterContainer.addChild(this.sprite)
     }
 
     update () {
@@ -28,8 +36,19 @@ export default class Character {
     }
 
     move(vx: number, vy:number) {
-        this.x += vx
-        this.y += vy
-        
+        let colliders = Game.getInstance().map.collidables
+        let willCollide = false
+
+        for(const collider of colliders) {
+            if (collider.isColliding(this.x + vx, this.y + vy)) {
+                willCollide = true
+                break
+            }
+        }
+
+        if (!willCollide) {
+            this.x += vx
+            this.y += vy
+        }        
     }
 }

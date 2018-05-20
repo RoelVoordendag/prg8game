@@ -1,4 +1,4 @@
-import Game from './Game'
+import Game from '../Game'
 import Map from './Map'
 import { Rectangle } from 'pixi.js'
 
@@ -20,6 +20,6 @@ export default class Tile {
         this.sprite.x = x;
         this.sprite.y = y;
 
-        Game.getInstance().pixi.stage.addChild(this.sprite);
+        Game.getInstance().tileContainer.addChild(this.sprite);
     }
 }
