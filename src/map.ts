@@ -1,5 +1,6 @@
 import Game from "./Game"
 import Tile from "./Tile"
+import Player from './Characters/Player'
 
 
 export default class Map {
@@ -8,6 +9,7 @@ export default class Map {
     private static tileSize = 64;
 
     public tiles: Array<Tile> = new Array;
+    public playerCharacters: Array<Player> = new Array;
 
     build(){
 
@@ -47,6 +49,16 @@ export default class Map {
 
     setTile(x: number, y: number, texture: string) {
         this.tiles.push(new Tile(x, y, texture, Map.tileSize))
+    }
+
+    addPlayer(playerCharacter: Player){
+        this.playerCharacters.push(playerCharacter)
+    }
+
+    update () {
+        for (const playerCharacter of this.playerCharacters) {
+            playerCharacter.update()
+        }
     }
 
 

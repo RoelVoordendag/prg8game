@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js"
 import Map from "./Map"
+import Player from "./Characters/Player"
 
 export default class Game {
   //singleton function 
@@ -14,10 +15,13 @@ export default class Game {
 
   public pixi: PIXI.Application;
   public map: Map;
+  public player!: Player;
+  public keyState:any[] = []
 
   private constructor() {
 
     this.map = new Map();
+
     
     //Initialise the canvas
     this.pixi = new PIXI.Application(window.innerWidth, window.innerHeight, {
@@ -39,23 +43,36 @@ export default class Game {
 
     //load assets
     PIXI.loader
-        .add('x', 'res/x.png')
-        .add('d', 'res/d.png')
         .add('grasstiles', 'res/grasstiles.json')
         .load()
-        PIXI.loader.onComplete.add(() => {this.map.build();});
-
-    this.gameLoop();    
+        PIXI.loader.onComplete.add(() => {this.setup();});   
   }
 
-  // private setup():void {
-    
-    
-  //   Game.getInstance().gameLoop()
-  // }
+  private setup () {
+
+    this.map.build();
+    this.player = new Player(10, 10)
+    this.map.addPlayer(this.player)
+
+    //player movement listeners
+    window.addEventListener('keydown', function(e){
+      Game.getInstance().keyState[e.keyCode || e.which] = true;
+    }, true)
+    window.addEventListener('keyup', function(e){
+      Game.getInstance().keyState[e.keyCode || e.which] = false;
+    }, true)
+
+
+    requestAnimationFrame(() => this.gameLoop());
+  }
   
   private gameLoop():void {
-    
+    //update all the map elements
+    this.map.update()
+    //send keystate to player for movement
+    this.player.keyPressed(this.keyState);
+
+
     requestAnimationFrame(() => this.gameLoop());
   }
 }

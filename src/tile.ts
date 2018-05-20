@@ -1,6 +1,6 @@
 import Game from './Game'
 import Map from './Map'
-import { Rectangle } from 'pixi.js';
+import { Rectangle } from 'pixi.js'
 
 export default class Tile {
     public x: number;
@@ -12,9 +12,6 @@ export default class Tile {
         this.x = x;
         this.y = y;
         this.textureName = textureName;
-        // this.sprite = new PIXI.Sprite(
-        //                 PIXI.loader.resources[textureName].texture
-        //             );
         this.sprite = new PIXI.Sprite(
             PIXI.loader.resources["grasstiles"].textures![textureName]
         )
