@@ -71,14 +71,14 @@ export default class Map {
     }
 
     //Make a new player and push it to the playerCharacters array
-    addPlayer(playerCharacter: Player){
+    addPlayer(playerCharacter: any){
         this.playerCharacters.push(playerCharacter)
     }
 
     //Update everything that should move (player, npc, mob)
     update () {
         for (const playerCharacter of this.playerCharacters) {
-            playerCharacter.update()
+            playerCharacter.update()            
         }
     }
 

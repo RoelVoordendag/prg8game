@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js"
 import Map from "./World/Map"
 import Player from "./Characters/Player"
+import Enemy from "./Characters/Enemy"
 
 export default class Game {
   //singleton function 
@@ -16,6 +17,7 @@ export default class Game {
   public pixi: PIXI.Application
   public map: Map = new Map();
   public player!: Player;
+  public enemy!:Enemy;
   public keyState:any[] = []
   public tileContainer: PIXI.Container = new PIXI.Container()
   public objectContainer: PIXI.Container = new PIXI.Container()
@@ -62,10 +64,13 @@ export default class Game {
   }
 
   private setup () {
-    //build the map, then add a player
+    //build the map, then add a player and enemy
     this.map.build()
     this.player = new Player(540, 50)
+    this.enemy =  new Enemy(600 , 300);
     this.map.addPlayer(this.player)
+    this.map.addPlayer(this.enemy);
+
 
     //player movement listeners
     window.addEventListener('keydown', function(e){
@@ -84,6 +89,8 @@ export default class Game {
     this.map.update()
     //send keystate to player for movement
     this.player.keyPressed(this.keyState);
+    //let enemy move
+    this.enemy.moveEnemy();
 
     requestAnimationFrame(() => this.gameLoop());
   }
